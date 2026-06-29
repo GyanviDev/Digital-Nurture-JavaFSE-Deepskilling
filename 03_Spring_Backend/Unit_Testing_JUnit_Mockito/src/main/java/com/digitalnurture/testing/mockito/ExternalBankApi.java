@@ -1,6 +1,8 @@
 package com.digitalnurture.testing.mockito;
 
-// This represents the external API we cannot hit during unit testing
 public interface ExternalBankApi {
     double getConversionRate(String fromCurrency, String toCurrency);
+    
+    // NEW: A void method representing a side-effect (like an audit log)
+    void logConversion(String fromCurrency, String toCurrency, double convertedAmount);
 }

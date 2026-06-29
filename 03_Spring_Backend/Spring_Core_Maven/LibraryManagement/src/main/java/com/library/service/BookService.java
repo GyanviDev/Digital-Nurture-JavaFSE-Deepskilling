@@ -1,22 +1,28 @@
 package com.library.service;
 
 import com.library.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.library.config.LibraryConfig;
 
-@Service
 public class BookService {
     
-    private final BookRepository bookRepository;
+    private final BookRepository bookRepository; // Mandatory
+    private LibraryConfig libraryConfig;         // Optional
 
-    @Autowired
+    // Constructor Injection (For Mandatory dependency)
     public BookService(BookRepository bookRepository) {
-        System.out.println("[SPRING IoC] Autowiring BookRepository via Constructor Injection.");
         this.bookRepository = bookRepository;
     }
 
+    // Setter Injection (For Optional dependency)
+    public void setLibraryConfig(LibraryConfig libraryConfig) {
+        this.libraryConfig = libraryConfig;
+    }
+
     public void manageBooks() {
-        System.out.println("[SERVICE LAYER] BookService business logic initiated.");
-        bookRepository.fetchBooks(); 
+        System.out.println("[SERVICE LAYER] BookService initiated.");
+        bookRepository.fetchBooks();
+        if (libraryConfig != null) {
+            libraryConfig.getConfiguration();
+        }
     }
 }

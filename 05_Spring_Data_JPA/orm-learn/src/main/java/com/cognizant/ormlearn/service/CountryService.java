@@ -48,4 +48,9 @@ public class CountryService {
     public List<Country> searchCountriesByName(String partialName) {
         return countryRepository.findByNameContainingOrderByNameAsc(partialName);
     }
+
+    @Transactional(readOnly = true)
+    public List<Country> searchCountriesByStartingLetter(String alphabet) {
+        return countryRepository.findByNameStartingWith(alphabet);
+    }
 }

@@ -29,6 +29,7 @@ public class OrmLearnApplication {
             testUpdateCountry();
             testDeleteCountry();
             testSearchCountries();
+            testSearchCountriesByStartingLetter();
         } catch (Exception e) {
             LOGGER.error("Application test failed: ", e);
         }
@@ -79,5 +80,12 @@ public class OrmLearnApplication {
         List<Country> countries = countryService.searchCountriesByName("ou");
         LOGGER.debug("Countries containing 'ou': {}", countries);
         LOGGER.info("End testSearchCountries\n");
+    }
+
+    private static void testSearchCountriesByStartingLetter() {
+        LOGGER.info("Start testSearchCountriesByStartingLetter");
+        List<Country> countries = countryService.searchCountriesByStartingLetter("U");
+        LOGGER.debug("Countries starting with 'U': {}", countries);
+        LOGGER.info("End testSearchCountriesByStartingLetter\n");
     }
 }

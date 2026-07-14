@@ -8,6 +8,9 @@ import java.util.List;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, String> {
     
-    // Generates: SELECT * FROM country WHERE co_name LIKE '%name%' ORDER BY co_name ASC
+    // Automatically generates: SELECT * FROM country WHERE co_name LIKE '%name%' ORDER BY co_name ASC
     List<Country> findByNameContainingOrderByNameAsc(String name);
+
+    // Automatically generates: SELECT * FROM country WHERE co_name LIKE 'alphabet%'
+    List<Country> findByNameStartingWith(String alphabet);
 }

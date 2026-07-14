@@ -1,7 +1,9 @@
 package com.cognizant.ormlearn;
 
 import com.cognizant.ormlearn.model.Country;
+import com.cognizant.ormlearn.model.Employee;
 import com.cognizant.ormlearn.service.CountryService;
+import com.cognizant.ormlearn.service.EmployeeService;
 import com.cognizant.ormlearn.service.exception.CountryNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,20 +18,27 @@ public class OrmLearnApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrmLearnApplication.class);
     private static CountryService countryService;
+    private static EmployeeService employeeService;
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(OrmLearnApplication.class, args);
         countryService = context.getBean(CountryService.class);
+        employeeService = context.getBean(EmployeeService.class);
         
         LOGGER.info("--- Starting Database Operations Test ---");
         
         try {
-            testFindCountryByCode();
-            testAddCountry();
-            testUpdateCountry();
-            testDeleteCountry();
-            testSearchCountries();
-            testSearchCountriesByStartingLetter();
+            // Commenting out Country module tests to isolate Employee HQL tests
+            // testFindCountryByCode();
+            // testAddCountry();
+            // testUpdateCountry();
+            // testDeleteCountry();
+            // testSearchCountries();
+            // testSearchCountriesByStartingLetter();
+            
+            testGetAllPermanentEmployees();
+            testGetAverageSalary();
+            testGetAllEmployeesNative();
         } catch (Exception e) {
             LOGGER.error("Application test failed: ", e);
         }
@@ -87,5 +96,29 @@ public class OrmLearnApplication {
         List<Country> countries = countryService.searchCountriesByStartingLetter("U");
         LOGGER.debug("Countries starting with 'U': {}", countries);
         LOGGER.info("End testSearchCountriesByStartingLetter\n");
+    }
+
+    // --- PHASE 3: EMPLOYEE HQL & NATIVE TESTS ---
+    
+    private static void testGetAllPermanentEmployees() {
+        LOGGER.info("Start testGetAllPermanentEmployees");
+        List<Employee> employees = employeeService.getAllPermanentEmployees();
+        LOGGER.debug("Permanent Employees: {}", employees);
+        employees.forEach(e -> LOGGER.debug("Skills: {}", e.getSkillList()));
+        LOGGER.info("End testGetAllPermanentEmployees\n");
+    }
+
+    private static void testGetAverageSalary() {
+        LOGGER.info("Start testGetAverageSalary");
+        double avgSalary = employeeService.getAverageSalary(1);
+        LOGGER.debug("Average Salary of Department 1: {}", avgSalary);
+        LOGGER.info("End testGetAverageSalary\n");
+    }
+
+    private static void testGetAllEmployeesNative() {
+        LOGGER.info("Start testGetAllEmployeesNative");
+        List<Employee> employees = employeeService.getAllEmployeesNative();
+        LOGGER.debug("Native Query Employees: {}", employees);
+        LOGGER.info("End testGetAllEmployeesNative\n");
     }
 }

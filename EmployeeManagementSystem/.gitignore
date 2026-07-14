@@ -1,0 +1,8 @@
+/target/
+.mvn/
+.settings/
+.vscode/
+.classpath
+.project
+*.log
+.DS_Store
